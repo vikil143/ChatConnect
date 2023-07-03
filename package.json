@@ -1,5 +1,5 @@
 {
-  "name": "messaging_app",
+  "name": "chat_connect",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-firebase/app": "^18.1.0",
+    "@react-native-firebase/auth": "^18.1.0",
     "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/material-top-tabs": "^6.6.2",

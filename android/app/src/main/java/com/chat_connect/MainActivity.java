@@ -1,4 +1,4 @@
-package com.messaging_app;
+package com.chat_connect;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "messaging_app";
+    return "chat_connect";
   }
 
   @Override

@@ -3,16 +3,19 @@ import {View, FlatList, StyleSheet} from 'react-native';
 import {commonStyles} from '../../utility/commonStyles';
 import Header from './components/Header';
 import {Colors} from '../../utility/Colors';
+import AppUsers from '../../components/users/AppUserBox';
+import {MainRouteScreenProps} from '../../routes/types';
 
-const UserListScreen = () => {
+interface UserListScreenProps extends MainRouteScreenProps<'Dashboard'> {}
+
+const UserListScreen = ({navigation}: UserListScreenProps) => {
   return (
     <View style={[commonStyles.flexOne, commonStyles.white]}>
       <Header />
       <FlatList
         data={[1, 2, 3, 4]}
-        ItemSeparatorComponent={() => <View style={{padding: 10}} />}
-        renderItem={({}) => {
-          return <View style={[styles.box]} />;
+        renderItem={({index}) => {
+          return <AppUsers {...{navigation, index}} maxLengthNo={3} />;
         }}
       />
     </View>

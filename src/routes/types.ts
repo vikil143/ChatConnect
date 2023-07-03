@@ -27,6 +27,7 @@ export type MainRoutesParams = {
   Dashboard: undefined;
   UserList: undefined;
   ChatRoom: ChatRoomParams;
+  Login: undefined;
 };
 
 export type MainRouteScreenProps<T extends keyof MainRoutesParams> =
@@ -38,7 +39,7 @@ export type MainRouteNavigationParam = {
 
 export type TabDataItemParams = {
   route: keyof TabRoutesParams;
-  component: () => JSX.Element;
+  component: ({}) => JSX.Element;
 };
 
 export type TabDataParams = Array<TabDataItemParams>;

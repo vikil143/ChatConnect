@@ -5,13 +5,13 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import UserListScreen from '../screens/user-list/UserListScreen';
 import ChatRoom from '../screens/chat-room/ChatRoom';
 import {commonStyles} from '../utility/commonStyles';
 import DashboardTabsNavigator from './DashboardTabs';
 import {MainRoutesParams} from './types';
+import LoginScreen from '../screens/auth/Login';
 
-const Stack = createStackNavigator<MainRoutesParams>();
+const MainStack = createStackNavigator<MainRoutesParams>();
 
 const DashboardTabScreen = () => {
   return (
@@ -24,15 +24,19 @@ const DashboardTabScreen = () => {
 const RootNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <MainStack.Navigator
         screenOptions={{
           headerShown: false,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}>
-        <Stack.Screen name="Dashboard" component={DashboardTabScreen} />
-        <Stack.Screen name="UserList" component={UserListScreen} />
-        <Stack.Screen name="ChatRoom" component={ChatRoom} />
-      </Stack.Navigator>
+        <MainStack.Group>
+          <MainStack.Screen name="Login" component={LoginScreen} />
+        </MainStack.Group>
+        <MainStack.Group>
+          <MainStack.Screen name="Dashboard" component={DashboardTabScreen} />
+          <MainStack.Screen name="ChatRoom" component={ChatRoom} />
+        </MainStack.Group>
+      </MainStack.Navigator>
     </NavigationContainer>
   );
 };
