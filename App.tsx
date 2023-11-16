@@ -7,6 +7,7 @@
 
 import React from 'react';
 import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
+import {RealmProvider} from './src/realmDB';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import RootNavigator from './src/routes/RootNavigator';
 import {commonStyles} from './src/utility/commonStyles';
@@ -16,10 +17,15 @@ function App() {
   return (
     <GestureHandlerRootView style={[commonStyles.flexOne]}>
       <SafeAreaView style={[commonStyles.flexOne]}>
-        <View style={[commonStyles.flexOne]}>
-          <StatusBar backgroundColor={Colors.white} barStyle={'dark-content'} />
-          <RootNavigator />
-        </View>
+        <RealmProvider>
+          <View style={[commonStyles.flexOne]}>
+            <StatusBar
+              backgroundColor={Colors.white}
+              barStyle={'dark-content'}
+            />
+            <RootNavigator />
+          </View>
+        </RealmProvider>
       </SafeAreaView>
     </GestureHandlerRootView>
   );

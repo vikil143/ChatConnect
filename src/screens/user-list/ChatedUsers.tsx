@@ -1,5 +1,5 @@
 import {StyleSheet, View, FlatList} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from './components/Header';
 import {commonStyles} from '../../utility/commonStyles';
 import {Colors} from '../../utility/Colors';
@@ -11,6 +11,7 @@ interface ChatedUsersScreenProps extends MainRouteScreenProps<'Dashboard'> {}
 export default function ChatedUsersScreen({
   navigation,
 }: ChatedUsersScreenProps) {
+  const [messageList, setMessageList] = useState([]);
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   // // Handle user state changes

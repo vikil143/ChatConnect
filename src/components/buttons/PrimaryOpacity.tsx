@@ -30,9 +30,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   container: {
-    padding: 10,
+    padding: 15,
     backgroundColor: Colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 8,
   },
 });

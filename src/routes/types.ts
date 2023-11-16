@@ -4,6 +4,7 @@ import {
   MaterialTopTabScreenProps,
   MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export type TabRoutesParams = {
   Messages: undefined;
@@ -28,6 +29,7 @@ export type MainRoutesParams = {
   UserList: undefined;
   ChatRoom: ChatRoomParams;
   Login: undefined;
+  OTP: {firebaseConfirmation: FirebaseAuthTypes.ConfirmationResult};
 };
 
 export type MainRouteScreenProps<T extends keyof MainRoutesParams> =

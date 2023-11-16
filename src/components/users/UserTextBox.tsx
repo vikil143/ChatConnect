@@ -38,10 +38,7 @@ export default function UserTextBox({
         </View>
         <Spacing size={5} />
         <View style={[commonStyles.flexOne, commonStyles.justifyCenter]}>
-          <Text style={[styles.userTitle]}>
-            {'User '}
-            {index + 1}
-          </Text>
+          <Text style={[styles.userTitle]}></Text>
           <Spacing size={2} />
           <Text style={[styles.messageText]}>Hello, There</Text>
         </View>

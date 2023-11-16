@@ -7,17 +7,23 @@ import {MainRouteNavigationParam} from '../../routes/types';
 import {Colors, PostColors} from '../../utility/Colors';
 import Spacing from '../spacing/Spacing';
 import {commonStyles} from '../../utility/commonStyles';
+import {UserData} from '../../utility/types';
 
 interface AppUserProps extends MainRouteNavigationParam {
   maxLengthNo: number;
   index: number;
+  item: UserData;
 }
 
 export default function AppUsers({
   navigation,
   maxLengthNo,
   index,
+  item,
 }: AppUserProps) {
+  const userName = item?.name
+    ? item.name.charAt(0).toUpperCase() + item.name.slice(1)
+    : 'User';
   let specificInt = useRef(randomNumber(0, maxLengthNo));
 
   return (
@@ -25,7 +31,7 @@ export default function AppUsers({
       onPress={() =>
         navigation.navigate('ChatRoom', {
           color: PostColors[specificInt.current],
-          username: 'User ' + index + 1,
+          username: userName,
         })
       }>
       <View style={[styles.container, commonStyles.alignCenter]}>
@@ -38,12 +44,11 @@ export default function AppUsers({
         </View>
         <Spacing size={5} />
         <View style={[commonStyles.flexOne, commonStyles.justifyCenter]}>
-          <Text style={[styles.userTitle]}>
-            {'User '}
-            {index + 1}
-          </Text>
+          {/* <Text style={[styles.userTitle]}>{item.name}</Text> */}
+          {/* <Text style={[styles.userTitle]}>User name</Text> */}
+          <Text style={[styles.userTitle]}>{userName}</Text>
           <Spacing size={2} />
-          <Text style={[styles.messageText]}>Hello, There</Text>
+          <Text style={[styles.messageText]}>{item?.status}</Text>
         </View>
       </View>
     </OpacityButton>
