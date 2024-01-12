@@ -1,17 +1,21 @@
+import Realm from 'realm';
 import {StyleSheet, View, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+// import 'react-native-get-random-values';
+// import Realm from 'realm';
 import TextBox from '../../components/textbox/TextBox';
 import Spacing from '../../components/spacing/Spacing';
 import {Colors} from '../../utility/Colors';
 import PrimaryOpacityButton from '../../components/buttons/PrimaryOpacity';
 import {MainRouteScreenProps} from '../../routes/types';
 import Loader from '../../components/loader/Loader';
-import {usersDataRef} from '../../utility/database';
+import {usersKey, usersDataRef} from '../../utility/database';
 import {useRealm} from '../../realmDB';
 import ErrorMessage from '../../components/error/ErrorMessage';
+import {getUUID} from '../../utility/helpers';
 import {CurrentUser} from '../../realmDB/current-user';
-import {ChatedRoom} from '../../realmDB/chated-user';
+import {useCurrentUser} from '../../hooks/useCurrentUser';
 
 interface LoginScreenProps extends MainRouteScreenProps<'Login'> {}
 
@@ -24,6 +28,8 @@ export default function LoginScreen({navigation}: LoginScreenProps) {
   const [loader, setLoader] = useState(false);
   const [errorMessageName, setErrorMessageName] = useState('');
   const [errorMessageStatus, setErrorMessageStatus] = useState('');
+  const [update, forceUpdate] = useState(false);
+  const currentUser = useCurrentUser();
   const {write, create} = useRealm();
 
   // Handle user state changes
@@ -31,23 +37,24 @@ export default function LoginScreen({navigation}: LoginScreenProps) {
     setUser(user);
   }
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
+  // useEffect(() => {
+  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+  //   return subscriber; // unsubscribe on unmount
+  // }, []);
 
   const handleValidate = async () => {
     let isValide = true;
     // Once because its calling from submit
-    const data = await usersDataRef.once('value');
-    const isUserIsPresent = Object.values(data.val()).findIndex(
-      (item, index) => item.name === name,
-    );
-    console.log('log data', isUserIsPresent);
-    if (isUserIsPresent >= 0) {
-      setErrorMessageName('User Name was already present');
-      isValide = false;
-    }
+    // const data = await usersDataRef.ref(usersKey).once('value');
+    // const isUserIsPresent = Object.values(data.val()).findIndex(
+    //   (item, index) => item.name === name,
+    // );
+
+    // console.log('log data', isUserIsPresent);
+    // if (isUserIsPresent >= 0) {
+    //   setErrorMessageName('User Name was already present');
+    //   isValide = false;
+    // }
 
     if (name.trim() === '') {
       setErrorMessageName('Please enter name');
@@ -71,28 +78,32 @@ export default function LoginScreen({navigation}: LoginScreenProps) {
     const isValide = await handleValidate();
     if (isValide) {
       try {
-        // Created USer here
-        const newRef = usersDataRef.push();
-        newRef.set({
-          name: name,
-          status: status,
-          id: newRef.key,
-        });
+        const currentUser = {
+          name,
+          status,
+          // _id: new Realm.BSON.ObjectId(),
+        };
 
         write(() => {
-          create(CurrentUser.schema.name, {
-            name: name,
-            status: status,
-            id: newRef.key,
-          });
-          create(ChatedRoom.schema.name, {
-            name: name,
-            status: status,
-            id: newRef.key,
-            lastMessage: '',
-          });
-          navigation.navigate('Dashboard');
+          create('CurrentUser', currentUser);
         });
+
+        // forceUpdate();
+
+        // const currentUser = {
+        //   name,
+        //   status,
+        //   id: getUUID(),
+        // };
+        // usersDataRef.ref(`${usersKey}/${name}`).set(currentUser);
+        // // usersDataRef.ref(`${usersKey}`).once
+        // write(() => {
+        //   create(CurrentUser.name, currentUser);
+        // });
+        // navigation.navigate('Dashboard');
+        //
+        //
+        //
       } catch (error) {
       } finally {
       }
@@ -145,14 +156,20 @@ export default function LoginScreen({navigation}: LoginScreenProps) {
           onPress={() => onSubmit()}
           title="Proceed to app"></PrimaryOpacityButton>
       </View>
+      <View>
+        <Text>{JSON.stringify(currentUser)}</Text>
+        {/* {currentUser.map((item, index) => (
+          <Text>ONe</Text>
+        ))} */}
+      </View>
+      {/* <Spacing />
       <Spacing />
       <Spacing />
       <Spacing />
       <Spacing />
       <Spacing />
       <Spacing />
-      <Spacing />
-      <Spacing />
+      <Spacing /> */}
       <Loader isVisible={loader}></Loader>
     </View>
   );

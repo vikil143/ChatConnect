@@ -7,6 +7,7 @@ import MessageBox from './components/MessageBox';
 import {isBothAreMatchedDates} from '../../utility/helpers';
 import TypeBox from './components/TypeBox';
 import {MessageData} from './types';
+import ImageModal from './components/ImageModal';
 
 interface ChatRoomScreenProps extends MainRouteScreenProps<'ChatRoom'> {}
 
@@ -43,11 +44,16 @@ const initData: MessageData[] = [
 function ChatRoomScreen({route, navigation}: ChatRoomScreenProps) {
   let date = useRef(new Date());
   const [data, setData] = useState([...initData]);
+  const [modal, setModal] = useState(false);
   const {color, username} = route.params;
 
   const goBack = () => navigation.goBack();
 
   const sendMessage = (msgObj: MessageData) => setData([msgObj, ...data]);
+
+  const showModal = () => setModal(true);
+
+  const hideModal = () => setModal(false);
 
   return (
     <View style={[commonStyles.flexOne]}>
@@ -66,18 +72,21 @@ function ChatRoomScreen({route, navigation}: ChatRoomScreenProps) {
                 data={data}
                 color={color}
                 message={item.message}
+                image={item.image}
                 userId={item.userId}
                 date={item.date}
                 isCurrentUser={item.userId === 1}
                 isShowDate={!isSameDate}
                 isLastDate={data.length - 1 === index}
                 isNotFirst={index !== 0}
+                showImage={showModal}
               />
             );
           }}
         />
         <TypeBox color={color} sendMessage={sendMessage} />
       </View>
+      <ImageModal show={modal} hide={hideModal} />
     </View>
   );
 }

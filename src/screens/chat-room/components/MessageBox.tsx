@@ -5,10 +5,12 @@ import {SCREEN_WIDTH} from '../../../utility/constants';
 import {commonStyles} from '../../../utility/commonStyles';
 import {formatDateByTime, getFormattedDate} from '../../../utility/helpers';
 import Spacing from '../../../components/spacing/Spacing';
+import ImageBox from './ImageBox';
 
 interface MessageBoxProps {
   userId: number;
-  message: string;
+  message?: string;
+  image?: string;
   isCurrentUser: boolean;
   color: string;
   isShowDate: boolean;
@@ -17,14 +19,17 @@ interface MessageBoxProps {
   isNotFirst: boolean;
   data: {
     userId: number;
-    message: string;
+    message?: string;
+    image?: string;
     date: Date;
   }[];
   index: number;
+  showImage: () => void;
 }
 
 export default function MessageBox({
   message,
+  image,
   isCurrentUser,
   color,
   isShowDate,
@@ -33,6 +38,7 @@ export default function MessageBox({
   index,
   data,
   isNotFirst,
+  showImage,
 }: MessageBoxProps) {
   const containerStyles: ViewStyle = {
     justifyContent: isCurrentUser ? 'flex-end' : 'flex-start',
@@ -48,6 +54,8 @@ export default function MessageBox({
     marginLeft: isCurrentUser ? SCREEN_WIDTH * 0.2 : 0,
     borderTopLeftRadius: !isCurrentUser ? 0 : 10,
     borderTopRightRadius: isCurrentUser ? 0 : 10,
+    padding: !!image ? 5 : 10,
+    paddingHorizontal: !!image ? 5 : 15,
   };
 
   const textContainerStyle: TextStyle = {
@@ -76,9 +84,13 @@ export default function MessageBox({
       <View style={[styles.container, containerStyles]}>
         <View style={[messageRootContainerStyle]}>
           <View style={[styles.messageContainer, messageContainerStyle]}>
-            <Text style={[styles.messageTextContainer, textContainerStyle]}>
-              {message}
-            </Text>
+            {!!image ? (
+              <ImageBox showImage={showImage} {...{image}}></ImageBox>
+            ) : (
+              <Text style={[styles.messageTextContainer, textContainerStyle]}>
+                {message}
+              </Text>
+            )}
           </View>
           <Spacing size={1} />
           <View style={[commonStyles.row]}>
@@ -141,9 +153,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   messageContainer: {
-    padding: 10,
+    // padding: 10,
     borderRadius: 10,
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
   },
   container: {
     flexDirection: 'row',

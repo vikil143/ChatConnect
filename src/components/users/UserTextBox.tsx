@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Image} from 'react-native';
 import React, {useRef} from 'react';
 import FIcon from 'react-native-vector-icons/Feather';
 import {randomNumber} from '../../utility/helpers';
@@ -34,11 +34,11 @@ export default function UserTextBox({
             styles.profilePic,
             {backgroundColor: PostColors[specificInt.current]},
           ]}>
-          <FIcon name="user" size={30} color={Colors.white} />
+          <FIcon name="user" size={28} color={'#fff'} />
         </View>
         <Spacing size={5} />
         <View style={[commonStyles.flexOne, commonStyles.justifyCenter]}>
-          <Text style={[styles.userTitle]}></Text>
+          <Text style={[styles.userTitle]}>Test</Text>
           <Spacing size={2} />
           <Text style={[styles.messageText]}>Hello, There</Text>
         </View>
@@ -59,6 +59,11 @@ const SIZE = 60;
 const N_SIZE = 18;
 
 const styles = StyleSheet.create({
+  photoImage: {
+    width: SIZE,
+    height: SIZE,
+    borderRadius: SIZE,
+  },
   messageText: {
     color: Colors.grey,
     fontSize: 13,

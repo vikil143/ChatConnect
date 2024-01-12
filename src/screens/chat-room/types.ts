@@ -1,5 +1,6 @@
 export type MessageData = {
   date: Date;
-  message: string;
+  message?: string;
   userId: number;
+  image?: string;
 };

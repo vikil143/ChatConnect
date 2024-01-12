@@ -1,4 +1,7 @@
 import {MONTHS, WEEKS} from './constants';
+import {v4 as uuid} from 'uuid';
+
+export const getUUID = () => uuid();
 
 export const randomNumber = (min: number, max: number): number =>
   Math.ceil(Math.random() * (max - min) + min);

@@ -14,6 +14,13 @@ import {commonStyles} from './src/utility/commonStyles';
 import {Colors} from './src/utility/Colors';
 
 function App() {
+  /*
+    Planning for Chat App
+    For Users 
+    1. Store the data in realm DB from Firebase
+    2. Create Login User who can see their dashboard
+    
+  */
   return (
     <GestureHandlerRootView style={[commonStyles.flexOne]}>
       <SafeAreaView style={[commonStyles.flexOne]}>

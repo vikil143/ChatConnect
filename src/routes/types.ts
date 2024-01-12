@@ -30,6 +30,7 @@ export type MainRoutesParams = {
   ChatRoom: ChatRoomParams;
   Login: undefined;
   OTP: {firebaseConfirmation: FirebaseAuthTypes.ConfirmationResult};
+  Profile: undefined;
 };
 
 export type MainRouteScreenProps<T extends keyof MainRoutesParams> =

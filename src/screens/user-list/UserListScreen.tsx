@@ -1,51 +1,44 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import {commonStyles} from '../../utility/commonStyles';
 import Header from './components/Header';
 import {Colors} from '../../utility/Colors';
-import AppUsers from '../../components/users/AppUserBox';
 import {MainRouteScreenProps} from '../../routes/types';
-import {usersDataRef} from '../../utility/database';
+import {usersKey, usersDataRef} from '../../utility/database';
+import {useRealm} from '../../realmDB';
+import {useCurrentUser} from '../../hooks/useCurrentUser';
 
 interface UserListScreenProps extends MainRouteScreenProps<'Dashboard'> {}
 
 const UserListScreen = ({navigation}: UserListScreenProps) => {
-  const [messageList, setMessageList] = useState([]);
+  const [usersList, setUserList] = useState([]);
+  const currentUser = useCurrentUser();
+  const listenerRef = useRef(null);
+  const {write, create} = useRealm();
 
+  /* 
+    Planning Realm DB
+    Store data in realm from firebase
+  */
   useEffect(() => {
-    usersDataRef.once('value', snapshoot => {
-      const tempData = snapshoot.val();
-
-      const result = Object.values(tempData)
-        .filter(item => !!item)
-        .sort(function (a, b) {
-          if (a.name < b.name) {
-            return -1;
-          } else if (a.name > b.name) {
-            return 1;
-          }
-          // a must be equal to b
-          return 0;
-        });
-      console.log('User List ', result);
-      // const result = tempData
-
-      setMessageList(result!);
-    });
+    init();
+    return removeUserListner;
   }, []);
 
+  const init = () => {
+    addedUsersListners();
+  };
+
+  const addedUsersListners = () => {};
+
+  const removeUserListner = () => {
+    usersDataRef.ref(`${usersKey}`).off('child_added', listenerRef.current!);
+  };
+
+  console.log('Data', currentUser);
   return (
     <View style={[commonStyles.flexOne, commonStyles.white]}>
       <Header />
-      <FlatList
-        data={messageList}
-        keyExtractor={(_, index) => `index_${index}`}
-        renderItem={({index, item}) => {
-          return (
-            <AppUsers item={item} {...{navigation, index}} maxLengthNo={3} />
-          );
-        }}
-      />
     </View>
   );
 };

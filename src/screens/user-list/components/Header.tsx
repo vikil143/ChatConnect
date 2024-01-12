@@ -1,26 +1,33 @@
 import React from 'react';
-import {View, Text, Insets, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {View, Text, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 import {commonStyles} from '../../../utility/commonStyles';
 import {Colors} from '../../../utility/Colors';
 import Spacing from '../../../components/spacing/Spacing';
+import {MainRouteNavigationParam} from '../../../routes/types';
+import WithoutFeedback from '../../../components/touchables/WithoutFeedback';
 
-const Header = () => {
+interface HeaderProps extends Partial<MainRouteNavigationParam> {}
+
+const Header = ({navigation}: HeaderProps) => {
   return (
     <View style={[commonStyles.pA15, commonStyles.rowAlignCenter]}>
       <View style={[commonStyles.flexOne]}>
         <Text style={[styles.titleApp]}>Fire Chat</Text>
       </View>
       <Spacing />
-      <View>
-        <Icon name="add" style={[styles.addIcon]} />
+      <View style={[styles.user]}>
+        <WithoutFeedback onPress={() => navigation!.navigate('Profile')}>
+          <Icon name="user" style={[styles.userIcon]} />
+        </WithoutFeedback>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  addIcon: {
+  user: {},
+  userIcon: {
     fontSize: 25,
   },
   titleApp: {

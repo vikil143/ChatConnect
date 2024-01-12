@@ -1,17 +1,26 @@
-import {StyleSheet, View, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from './components/Header';
 import {commonStyles} from '../../utility/commonStyles';
 import {Colors} from '../../utility/Colors';
 import UserTextBox from '../../components/users/UserTextBox';
 import {MainRouteScreenProps} from '../../routes/types';
+import ReAnimModal from '../../components/modal/ReAnimModal';
+import BottomSheet from '../../components/modal/BottomSheet';
+import ProfileSheet from './components/ProfileSheet';
 
 interface ChatedUsersScreenProps extends MainRouteScreenProps<'Dashboard'> {}
 
 export default function ChatedUsersScreen({
   navigation,
 }: ChatedUsersScreenProps) {
-  const [messageList, setMessageList] = useState([]);
+  const [modal, setModal] = useState(false);
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   // // Handle user state changes
@@ -43,7 +52,7 @@ export default function ChatedUsersScreen({
 
   return (
     <View style={[commonStyles.flexOne, commonStyles.white]}>
-      <Header />
+      <Header navigation={navigation}></Header>
       <FlatList
         data={data}
         contentContainerStyle={{paddingBottom: 60}}
@@ -57,6 +66,7 @@ export default function ChatedUsersScreen({
           );
         }}
       />
+      <ProfileSheet show={modal} hide={() => setModal(false)} />
     </View>
   );
 }
@@ -64,10 +74,5 @@ export default function ChatedUsersScreen({
 const styles = StyleSheet.create({
   button: {
     padding: 20,
-  },
-  box: {
-    height: 400,
-    width: '100%',
-    backgroundColor: Colors.red,
   },
 });

@@ -6,6 +6,7 @@ export const Colors = {
   lightWhite: '#f8f8f8',
   grey: '#ddd',
   darkGrey: '#333',
+  online: '#2ecc71',
 };
 
 // Colors combo are mentioned below
