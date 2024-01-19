@@ -7,14 +7,15 @@ import {MainRouteScreenProps} from '../../routes/types';
 import {usersKey, usersDataRef} from '../../utility/database';
 import {useRealm} from '../../realmDB';
 import {useCurrentUser} from '../../hooks/useCurrentUser';
+import UserTextBox from '../../components/users/UserTextBox';
 
 interface UserListScreenProps extends MainRouteScreenProps<'Dashboard'> {}
 
 const UserListScreen = ({navigation}: UserListScreenProps) => {
+  const data = [1, 2, 3];
   const [usersList, setUserList] = useState([]);
   const currentUser = useCurrentUser();
   const listenerRef = useRef(null);
-  const {write, create} = useRealm();
 
   /* 
     Planning Realm DB
@@ -32,13 +33,26 @@ const UserListScreen = ({navigation}: UserListScreenProps) => {
   const addedUsersListners = () => {};
 
   const removeUserListner = () => {
-    usersDataRef.ref(`${usersKey}`).off('child_added', listenerRef.current!);
+    // usersDataRef.ref(`${usersKey}`).off('child_added', listenerRef.current!);
   };
 
   console.log('Data', currentUser);
   return (
     <View style={[commonStyles.flexOne, commonStyles.white]}>
       <Header />
+      <FlatList
+        data={data}
+        contentContainerStyle={{paddingBottom: 60}}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item, index}) => {
+          return (
+            <UserTextBox
+              {...{item, index, navigation}}
+              maxLengthNo={data.length - 1}
+            />
+          );
+        }}
+      />
     </View>
   );
 };

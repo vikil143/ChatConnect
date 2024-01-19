@@ -24,7 +24,7 @@ interface MessageBoxProps {
     date: Date;
   }[];
   index: number;
-  showImage: () => void;
+  showImage: (image: {uri: string; width: number; height: number}) => void;
 }
 
 export default function MessageBox({

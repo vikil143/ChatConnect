@@ -16,8 +16,8 @@ interface ZoomerProps extends HasChild {}
 export default function Zoomer({children}: ZoomerProps) {
   const [show, setShow] = React.useState(false);
   const [layout, setLayout] = React.useState({
-    width: -1,
-    height: -1,
+    width: 0,
+    height: 0,
   });
 
   const offsetScale = React.useRef({
@@ -35,7 +35,7 @@ export default function Zoomer({children}: ZoomerProps) {
 
   const origin = React.useRef({
     x: -layout.width / 2,
-    y: -SCREEN_WIDTH / 2,
+    y: -layout.height / 2,
   }).current;
 
   const panTranslate = React.useRef({
@@ -85,7 +85,7 @@ export default function Zoomer({children}: ZoomerProps) {
   const imageStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        {translateX: focal.x.value},
+        // {translateX: focal.x.value},
         // {translateY: focal.y.value},
         {scaleX: scale.x.value},
         {scaleY: scale.y.value},

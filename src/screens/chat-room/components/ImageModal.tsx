@@ -25,9 +25,14 @@ function Header({}: HeaderProps) {
 interface ImageModalProps {
   show: boolean;
   hide: () => void;
+  image: {
+    uri: string;
+    width: number;
+    height: number;
+  };
 }
 
-export default function ImageModal({show, hide}: ImageModalProps) {
+export default function ImageModal({show, image, hide}: ImageModalProps) {
   useBackHandler(show, hide);
   return (
     <View
@@ -55,8 +60,11 @@ export default function ImageModal({show, hide}: ImageModalProps) {
                   onLayout={e =>
                     console.log('Image width height', e.nativeEvent.layout)
                   }
-                  source={require('../../../assets/images/photo_one.jpg')}
-                  style={[styles.image]}
+                  source={{uri: image.uri}}
+                  style={[
+                    styles.image,
+                    {aspectRatio: image.width / image.height},
+                  ]}
                   resizeMode="contain"
                 />
               </Zoomer>

@@ -9,8 +9,8 @@ import ChatRoom from '../screens/chat-room/ChatRoom';
 import {commonStyles} from '../utility/commonStyles';
 import DashboardTabsNavigator from './DashboardTabs';
 import {MainRoutesParams} from './types';
-import LoginScreen from '../screens/auth/Login';
 import ProfileMainScreen from '../screens/profile/MainScreen';
+import LockScreen from '../screens/lock/LockScreen';
 
 const MainStack = createStackNavigator<MainRoutesParams>();
 
@@ -34,6 +34,7 @@ const RootNavigator = () => {
           <MainStack.Screen name="Login" component={LoginScreen} />
         </MainStack.Group> */}
         <MainStack.Group>
+          {/* <MainStack.Screen name="Lock" component={LockScreen} /> */}
           <MainStack.Screen name="Dashboard" component={DashboardTabScreen} />
           <MainStack.Screen name="ChatRoom" component={ChatRoom} />
           <MainStack.Screen name="Profile" component={ProfileMainScreen} />

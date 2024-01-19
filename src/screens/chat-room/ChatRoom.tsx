@@ -45,13 +45,29 @@ function ChatRoomScreen({route, navigation}: ChatRoomScreenProps) {
   let date = useRef(new Date());
   const [data, setData] = useState([...initData]);
   const [modal, setModal] = useState(false);
+  const [modalImage, setModalImage] = useState<{
+    uri: string;
+    width: number;
+    height: number;
+  }>({
+    uri: '',
+    width: 1,
+    height: 1,
+  });
   const {color, username} = route.params;
 
   const goBack = () => navigation.goBack();
 
   const sendMessage = (msgObj: MessageData) => setData([msgObj, ...data]);
 
-  const showModal = () => setModal(true);
+  const handleShowImage = (image: {
+    uri: string;
+    width: number;
+    height: number;
+  }) => {
+    setModalImage(image);
+    setModal(true);
+  };
 
   const hideModal = () => setModal(false);
 
@@ -79,14 +95,14 @@ function ChatRoomScreen({route, navigation}: ChatRoomScreenProps) {
                 isShowDate={!isSameDate}
                 isLastDate={data.length - 1 === index}
                 isNotFirst={index !== 0}
-                showImage={showModal}
+                showImage={handleShowImage}
               />
             );
           }}
         />
         <TypeBox color={color} sendMessage={sendMessage} />
       </View>
-      <ImageModal show={modal} hide={hideModal} />
+      <ImageModal image={modalImage!} show={modal} hide={hideModal} />
     </View>
   );
 }

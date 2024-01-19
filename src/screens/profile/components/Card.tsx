@@ -7,28 +7,62 @@ import {Colors} from '../../../utility/Colors';
 import {MainRouteNavigationParam} from '../../../routes/types';
 import WithoutFeedback from '../../../components/touchables/WithoutFeedback';
 
-interface CardProps extends MainRouteNavigationParam {}
+interface CardProps extends MainRouteNavigationParam {
+  openImagePicker: () => void;
+  image: {
+    uri?: string;
+    width: number;
+    height: number;
+    actaulWidth: number;
+    actualHeight: number;
+    x: number;
+    y: number;
+  };
+}
 
-export default function Card({navigation}: CardProps) {
+export default function Card({navigation, openImagePicker, image}: CardProps) {
   return (
-    <View>
+    <View style={[styles.container]}>
       <Image
-        source={require('../../../assets/images/photo_three.jpg')}
-        style={[styles.image]}
+        source={
+          !!image.uri
+            ? {uri: image.uri}
+            : require('../../../assets/images/photo_three.jpg')
+        }
+        style={[
+          styles.image,
+          !!image.uri
+            ? {
+                width: SCREEN_WIDTH + (image.actaulWidth - image.width),
+                height:
+                  (SCREEN_WIDTH + (image.actaulWidth - image.width)) *
+                  (image.actualHeight / image.actaulWidth),
+                top: -image.y,
+                left: -image.x,
+              }
+            : {},
+        ]}
       />
       <WithoutFeedback onPress={() => navigation.goBack()}>
         <View style={[styles.crossBox]}>
           <MIIcon name="plus" color={Colors.white} size={40} />
         </View>
       </WithoutFeedback>
-      <View style={[styles.editBox]}>
-        <MIcon name="edit" color={Colors.white} size={30} />
-      </View>
+      <WithoutFeedback onPress={openImagePicker}>
+        <View style={[styles.editBox]}>
+          <MIcon name="edit" color={Colors.white} size={30} />
+        </View>
+      </WithoutFeedback>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_WIDTH,
+    overflow: 'hidden',
+  },
   crossBox: {
     position: 'absolute',
     top: 15,

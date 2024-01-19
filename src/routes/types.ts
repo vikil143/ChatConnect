@@ -31,6 +31,7 @@ export type MainRoutesParams = {
   Login: undefined;
   OTP: {firebaseConfirmation: FirebaseAuthTypes.ConfirmationResult};
   Profile: undefined;
+  Lock: undefined;
 };
 
 export type MainRouteScreenProps<T extends keyof MainRoutesParams> =

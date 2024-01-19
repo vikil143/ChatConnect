@@ -1,8 +1,14 @@
-import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+  ViewStyle,
+} from 'react-native';
 import React, {JSXElementConstructor, ReactElement} from 'react';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {commonStyles} from '../../utility/commonStyles';
-import {ContainerStyles, HasChild} from '../../types';
+import {ContainerStyles} from '../../types';
 import {Colors} from '../../utility/Colors';
 import {SCREEN_WIDTH} from '../../utility/constants';
 import {useBackHandler} from '../../hooks/useBackHandler';
@@ -11,11 +17,13 @@ interface ModalProps extends Partial<ContainerStyles> {
   show: boolean;
   hide: () => void;
   children: ReactElement<any, string | JSXElementConstructor<any>>;
+  style?: ViewStyle;
 }
 
 export default function ReAnimModal({
   show,
   hide,
+  style,
   children,
   containerStyle,
 }: ModalProps) {
@@ -37,8 +45,8 @@ export default function ReAnimModal({
               ]}
             />
           </TouchableWithoutFeedback>
-          <Animated.View style={[styles.box]}>
-            <View style={[styles.otherPart, containerStyle]}>
+          <Animated.View style={[styles.box, containerStyle]}>
+            <View style={[styles.otherPart, style]}>
               {React.cloneElement(children, {hide})}
             </View>
           </Animated.View>

@@ -18,14 +18,14 @@ interface ImageLayout {
 
 interface ImageBoxProps {
   image: string;
-  showImage: () => void;
+  showImage: (image: {uri: string; width: number; height: number}) => void;
 }
 
 const ImageBox = ({image, showImage}: ImageBoxProps) => {
   const [loader, setLoader] = useState(true);
   const [imageLayout, setImageLayout] = useState<ImageLayout>({
-    width: 0,
-    height: 0,
+    width: 1,
+    height: 1,
   });
 
   // Conditions to fix width in the box
@@ -69,9 +69,16 @@ const ImageBox = ({image, showImage}: ImageBoxProps) => {
     });
   };
 
+  const handleShowImage = () =>
+    showImage({
+      uri: image,
+      width: imageLayout.width,
+      height: imageLayout.height,
+    });
+
   return (
     <View style={[containeStyle]}>
-      <OpacityButton onPress={showImage}>
+      <OpacityButton onPress={handleShowImage}>
         <Image
           source={{uri: image}}
           style={[styles.image, imageStyle]}
